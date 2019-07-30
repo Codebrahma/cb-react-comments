@@ -1,18 +1,42 @@
 import React from "react";
-
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const StyledButton = styled.button`
-  padding: 8px;
   border: none;
-  background-color: pink;
   cursor: pointer;
-  color: #333;
   outline: none;
+  padding: "12px";
 `;
 
-const Button = ({ children, onClick, ...restProps }) => {
-  return <StyledButton onClick={onClick}>{children}</StyledButton>;
+const ButtonDanger = styled(StyledButton)`
+  color: tomato;
+  background-color: transparent;
+`;
+
+const ButtonPrimary = styled(StyledButton)`
+  color: blueviolet;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 14px;
+`;
+
+const Button = ({ label, onClick, ...restProps }) => {
+  return (
+    <StyledButton onClick={onClick} {...restProps}>
+      {label}
+    </StyledButton>
+  );
 };
 
-export default Button;
+Button.propTypes = {
+  label: PropTypes.string,
+  onClick: PropTypes.func.isRequired
+};
+
+Button.defaultProps = {
+  label: "Button",
+  onClick: () => {}
+};
+
+export { Button, ButtonDanger, ButtonPrimary };

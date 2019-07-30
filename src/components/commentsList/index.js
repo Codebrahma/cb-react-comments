@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import CommentItem from "./CommentItem";
 
@@ -16,6 +17,14 @@ const CommentsList = ({ comments = [1, 2, 2, 4, 5, 6] }) => {
       ))}
     </StyleCommentsList>
   );
+};
+
+CommentsList.propTypes = {
+  comments: PropTypes.array
+};
+
+CommentsList.defaultProps = {
+  comments: [1, 2, 3, 5, 6, 4, 7, 8]
 };
 
 export default CommentsList;
