@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import CommentItem from "./CommentItem";
+import CommentItem from "../commentItem";
 
 const StyleCommentsList = styled.div`
   padding: 32px;
   background-color: ${props => props.theme.colorWhite};
 `;
 
-const CommentsList = ({ comments = [1, 2, 2, 4, 5, 6] }) => {
+const CommentsList = ({ comments }) => {
   return (
     <StyleCommentsList>
       {comments.map(comment => (

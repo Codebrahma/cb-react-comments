@@ -9,13 +9,14 @@ const StyledInput = styled.textarea`
   border-color: ${props => props.theme.colorGreyLight};
 `;
 
-const Input = ({ value, onChange }) => {
+const Input = ({ value, onChange, ...restProps }) => {
   return (
     <StyledInput
       cols={40}
       rows={10}
       value={value}
       onChange={ev => onChange(ev.target.value)}
+      {...restProps}
     />
   );
 };

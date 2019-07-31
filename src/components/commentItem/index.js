@@ -54,7 +54,7 @@ const StyledCommentWrapper = styled.div`
 `;
 
 const EditWrapper = styled.div`
-  padding-bottom: 16px;
+  padding: 16px 0px;
 `;
 
 const StyledButtonWrapper = styled.div`
@@ -64,6 +64,15 @@ const StyledButtonWrapper = styled.div`
 
 const CommentItem = ({ details, ...restProps }) => {
   const [editMode, setEditMode] = useState(false);
+  const [
+    commentText,
+    setCommentText
+  ] = useState(`Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
+  perspiciatis nesciunt quasi hic facilis optio, sint atque. Quia
+  obcaecati provident architecto, sunt ab ea voluptatem eum magni amet,
+  voluptatibus sed. VERY BAD`);
+
+  const handleCommentText = text => setCommentText(text);
 
   if (!editMode) {
     return (
@@ -87,12 +96,7 @@ const CommentItem = ({ details, ...restProps }) => {
 
   return (
     <EditWrapper>
-      <Input
-        value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
-    perspiciatis nesciunt quasi hic facilis optio, sint atque. Quia
-    obcaecati provident architecto, sunt ab ea voluptatem eum magni amet,
-    voluptatibus sed. VERY BAD"
-      />
+      <Input value={`${commentText}`} onChange={handleCommentText} autoFocus />
 
       <StyledButtonWrapper>
         <ButtonDanger onClick={() => setEditMode(false)}>Cancel</ButtonDanger>
