@@ -1,17 +1,12 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const StyledInput = styled.textarea`
-  width: 100%;
-  outline: none;
-  border-radius: ${props => props.theme.borderRadius};
-  border-color: ${props => props.theme.colorGreyLight};
-`;
+import styles from "./Input.module.scss";
 
 const Input = ({ value, onChange, ...restProps }) => {
   return (
-    <StyledInput
+    <textarea
+      className={styles.inputStyles}
       cols={40}
       rows={10}
       value={value}

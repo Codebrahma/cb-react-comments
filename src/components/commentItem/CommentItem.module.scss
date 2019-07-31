@@ -1,0 +1,59 @@
+@import "../../Scss/theme.scss";
+
+.item {
+  padding: 12px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $colorGreyLight2;
+  }
+}
+
+.imageWrapper {
+  display: flex;
+  align-items: center;
+  padding-bottom: 12px;
+}
+
+.image {
+  width: 38px;
+  height: 38px;
+  border-radius: $borderRadiusCircle;
+}
+
+.name {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.comment {
+  font-size: 14px;
+  color: #333;
+  width: 60%;
+  line-height: 20px;
+
+  @media only screen and (max-width: $BP_MEDIUM) {
+    width: 100%;
+  }
+}
+
+.commentWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media only screen and (max-width: $BP_MEDIUM) {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+.editWrapper {
+  padding: 12px 0px;
+  text-align: right;
+}
+
+.buttonWrapper {
+  padding: 12px 0px;
+  text-align: right;
+}

@@ -1,19 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import Input from "../Input";
-import { ButtonPrimary } from "../Button";
+import Button from "../Button";
 
-const StyledAddComment = styled.div`
-  padding: 32px;
-  background: ${props => props.theme.colorWhite};
-`;
-
-const StyledButtonWrapper = styled.div`
-  padding: 12px 0px;
-  text-align: right;
-`;
+import styles from "./AddComment.module.scss";
 
 const AddComment = ({ onClick, buttonLabel, onChange, ...restProps }) => {
   const [commentText, setCommentText] = useState("");
@@ -21,27 +12,25 @@ const AddComment = ({ onClick, buttonLabel, onChange, ...restProps }) => {
   const handleCommentText = text => setCommentText(text);
 
   return (
-    <StyledAddComment {...restProps}>
+    <div className={styles.wrapper} {...restProps}>
       <Input onChange={handleCommentText} value={commentText} />
-      <StyledButtonWrapper>
-        <ButtonPrimary onClick={() => alert("Adding comment...")}>
+      <div className={styles.buttonWrapper}>
+        <Button type="primary" onClick={() => alert("Adding comment...")}>
           Add comment
-        </ButtonPrimary>
-      </StyledButtonWrapper>
-    </StyledAddComment>
+        </Button>
+      </div>
+    </div>
   );
 };
 
 AddComment.propTypes = {
   onClick: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
-  buttonLabel: PropTypes.string
+  onChange: PropTypes.func
 };
 
 AddComment.defaultProps = {
   onClick: () => {},
-  onChange: () => {},
-  buttonLabel: "Button"
+  onChange: () => {}
 };
 
 export default AddComment;

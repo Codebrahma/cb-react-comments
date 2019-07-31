@@ -1,18 +1,10 @@
 import React from "react";
-import { ThemeProvider } from "styled-components";
-
-import GlobalStyles from "./components/globalStyles";
-import { theme } from "./components/theme";
 import AppComments from "./components/appComments";
 
+import "./Scss/headings.scss";
+
 function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles>
-        <AppComments />
-      </GlobalStyles>
-    </ThemeProvider>
-  );
+  return <AppComments />;
 }
 
 export default App;
