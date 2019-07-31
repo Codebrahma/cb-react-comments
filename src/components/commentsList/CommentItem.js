@@ -9,7 +9,7 @@ const StyledCommentItem = styled.div`
   padding: 12px;
 
   &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid ${props => props.theme.colorGreyLight2};
   }
 `;
 
@@ -22,7 +22,7 @@ const StyledCommentImageWrapper = styled.div`
 const StyledCommnetImage = styled.img`
   width: 38px;
   height: 38px;
-  border-radius: 100px;
+  border-radius: ${props => props.theme.borderRadiusCircle};
 `;
 
 const StyledCommenterName = styled.div`
@@ -37,7 +37,7 @@ const StyledComment = styled.div`
   width: 60%;
   line-height: 20px;
 
-  @media only screen and (max-width: 56.25em) {
+  @media only screen and (max-width: ${props => props.theme.BP_MEDIUM}) {
     width: 100%;
   }
 `;
@@ -46,10 +46,20 @@ const StyledCommentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media only screen and (max-width: ${props => props.theme.BP_MEDIUM}) {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 `;
 
 const EditWrapper = styled.div`
   padding-bottom: 16px;
+`;
+
+const StyledButtonWrapper = styled.div`
+  padding: 12px 0px;
+  text-align: right;
 `;
 
 const CommentItem = ({ details, ...restProps }) => {
@@ -84,8 +94,10 @@ const CommentItem = ({ details, ...restProps }) => {
     voluptatibus sed. VERY BAD"
       />
 
-      <ButtonDanger onClick={() => setEditMode(false)}>Cancel</ButtonDanger>
-      <ButtonPrimary onClick={() => alert("saving")}>Save</ButtonPrimary>
+      <StyledButtonWrapper>
+        <ButtonDanger onClick={() => setEditMode(false)}>Cancel</ButtonDanger>
+        <ButtonPrimary onClick={() => alert("saving")}>Save</ButtonPrimary>
+      </StyledButtonWrapper>
     </EditWrapper>
   );
 };

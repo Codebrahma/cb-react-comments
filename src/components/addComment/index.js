@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -7,21 +7,26 @@ import { ButtonPrimary } from "../Button";
 
 const StyledAddComment = styled.div`
   padding: 32px;
-  background: papayawhip;
+  background: ${props => props.theme.colorWhite};
 `;
 
 const StyledButtonWrapper = styled.div`
   padding: 12px 0px;
+  text-align: right;
 `;
 
-// give a try to get value of input with refs **
+const AddComment = ({ onClick, buttonLabel, onChange, ...restProps }) => {
+  const [commentText, setCommentText] = useState("");
 
-const AddComment = ({ onClick, buttonLabel, ...restProps }) => {
+  const handleCommentText = text => setCommentText(text);
+
   return (
-    <StyledAddComment>
-      <Input />
+    <StyledAddComment {...restProps}>
+      <Input onChange={handleCommentText} value={commentText} />
       <StyledButtonWrapper>
-        <ButtonPrimary onClick={() => alert("HELLO")} label={buttonLabel} />
+        <ButtonPrimary onClick={() => alert("Adding comment...")}>
+          Add comment
+        </ButtonPrimary>
       </StyledButtonWrapper>
     </StyledAddComment>
   );
@@ -29,11 +34,13 @@ const AddComment = ({ onClick, buttonLabel, ...restProps }) => {
 
 AddComment.propTypes = {
   onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   buttonLabel: PropTypes.string
 };
 
 AddComment.defaultProps = {
   onClick: () => {},
+  onChange: () => {},
   buttonLabel: "Button"
 };
 

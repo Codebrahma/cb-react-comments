@@ -6,7 +6,7 @@ import CommentItem from "./CommentItem";
 
 const StyleCommentsList = styled.div`
   padding: 32px;
-  backgound-color: papayawhip;
+  background-color: ${props => props.theme.colorWhite};
 `;
 
 const CommentsList = ({ comments = [1, 2, 2, 4, 5, 6] }) => {

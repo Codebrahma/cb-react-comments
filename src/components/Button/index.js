@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const StyledButton = styled.button`
+  background-color: transparent;
   border: none;
   cursor: pointer;
   outline: none;
@@ -10,32 +11,31 @@ const StyledButton = styled.button`
 `;
 
 const ButtonDanger = styled(StyledButton)`
-  color: tomato;
-  background-color: transparent;
+  color: ${props => props.theme.colorRedLight};
 `;
 
 const ButtonPrimary = styled(StyledButton)`
-  color: blueviolet;
-  background-color: transparent;
+  color: ${props => props.theme.colorPrimary};
+
   font-weight: 400;
   font-size: 14px;
 `;
 
-const Button = ({ label, onClick, ...restProps }) => {
+const Button = ({ children, onClick, ...restProps }) => {
   return (
     <StyledButton onClick={onClick} {...restProps}>
-      {label}
+      {children}
     </StyledButton>
   );
 };
 
 Button.propTypes = {
-  label: PropTypes.string,
+  children: PropTypes.string,
   onClick: PropTypes.func.isRequired
 };
 
 Button.defaultProps = {
-  label: "Button",
+  children: "Button",
   onClick: () => {}
 };
 

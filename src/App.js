@@ -1,15 +1,17 @@
 import React from "react";
-import AddComment from "./components/addComment";
-import CommentsList from "./components/commentsList";
+import { ThemeProvider } from "styled-components";
 
 import GlobalStyles from "./components/globalStyles";
+import { theme } from "./components/theme";
+import AppComments from "./components/appComments";
 
 function App() {
   return (
-    <GlobalStyles>
-      <AddComment />
-      <CommentsList />
-    </GlobalStyles>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles>
+        <AppComments />
+      </GlobalStyles>
+    </ThemeProvider>
   );
 }
 
