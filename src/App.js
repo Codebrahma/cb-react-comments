@@ -1,12 +1,10 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import AppComments from "./components/appComments";
+
+import "./Scss/headings.scss";
 
 function App() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", alignContent: "center", minHeight: "100vh" }}>
-      <h1>cb-react-comments</h1>
-    </div>
-  );
+  return <AppComments />;
 }
 
 export default App;

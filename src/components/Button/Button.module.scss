@@ -1,0 +1,20 @@
+@import "../../Scss/theme.scss";
+
+.button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: "12px";
+}
+
+.primary {
+  color: $colorPrimary;
+}
+
+.secondary {
+}
+
+.danger {
+  color: $colorRedLight;
+}
