@@ -1,12 +1,14 @@
 import React from 'react';
-import './App.css';
+import Comments from './components/comments/Comments';
+import data from './data';
 
 function App() {
-  return (
-    <div style={{ display: "flex", justifyContent: "center", alignContent: "center", minHeight: "100vh" }}>
-      <h1>cb-react-comments</h1>
-    </div>
-  );
+  const userInfo = {
+    name: 'naveen',
+    profileImageURL:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQysqwVdNUKASMQcQau2kXUBBgpHjRz_YqRJwduBzCQfCIrSFvz&s'
+  };
+  return <Comments userInfo={userInfo} data={data} />;
 }
 
 export default App;
