@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './comment.scss';
 
-const Comment = ({ deleteComment, ownerInfo, comment }) => {
+const Comment = ({ deleteComment, editComment, ownerInfo, comment }) => {
   const { userInfo, context } = comment;
   const myId = ownerInfo.id;
   const uid = userInfo.id;
@@ -37,7 +37,9 @@ const Comment = ({ deleteComment, ownerInfo, comment }) => {
         >
           {currentUserComment ? (
             <>
-              <div className="option">Edit</div>
+              <div className="option" onClick={() => editComment(comment)}>
+                Edit
+              </div>
               <div className="option" onClick={() => deleteComment(comment)}>
                 Delete
               </div>

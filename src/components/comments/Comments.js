@@ -14,10 +14,15 @@ const Comments = ({ data, ownerInfo }) => {
     // TODO delete comment
   };
 
+  const editComment = toEditComment => {
+    console.log(toEditComment);
+  };
+
   const commentsList = comments.map(comment => (
     <Comment
       key={comment.id}
       deleteComment={deleteComment}
+      editComment={editComment}
       ownerInfo={ownerInfo}
       comment={comment}
     />
