@@ -19,6 +19,9 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': 'off',
     'comma-dangle': 'off',
-    'react/jsx-props-no-spreading': 'off'
+    'react/jsx-props-no-spreading': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'arrow-parens': 'off'
   }
 };
