@@ -4,11 +4,13 @@ import data from './data';
 
 function App() {
   const userInfo = {
+    id: 0,
     name: 'naveen',
     profileImageURL:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQysqwVdNUKASMQcQau2kXUBBgpHjRz_YqRJwduBzCQfCIrSFvz&s'
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQysqwVdNUKASMQcQau2kXUBBgpHjRz_YqRJwduBzCQfCIrSFvz&s',
+    profileURL: '/'
   };
-  return <Comments userInfo={userInfo} data={data} />;
+  return <Comments ownerInfo={userInfo} data={data} />;
 }
 
 export default App;

@@ -3,24 +3,42 @@ import PropTypes from 'prop-types';
 import Comment from '../comment/Comment';
 import './comments.scss';
 
-const Comments = ({ data, userInfo }) => {
+const Comments = ({ data, ownerInfo }) => {
   const [comments, updateComments] = useState(data);
 
-  const commentsList = comments.map((comment, index) => (
-    <Comment key={index} {...comment} />
+  const deleteComment = toDelcomment => {
+    const updatedComments = comments.filter(
+      comment => comment.id !== toDelcomment.id
+    );
+    updateComments(updatedComments);
+    // TODO delete comment
+  };
+
+  const commentsList = comments.map(comment => (
+    <Comment
+      key={comment.id}
+      deleteComment={deleteComment}
+      ownerInfo={ownerInfo}
+      comment={comment}
+    />
   ));
 
   const addComment = e => {
     e.preventDefault();
     const text = e.target.input.value.trim();
+
     if (text !== '') {
       const myMessage = {
-        userInfo,
+        userInfo: ownerInfo,
         context: text,
-        postedTime: Date.now()
+        postedTime: Date.now(),
+        id: Math.random()
       };
+
       e.target.input.value = '';
       updateComments(prev => prev.concat(myMessage));
+
+      // TODO  post comment
     }
   };
 
@@ -42,11 +60,13 @@ const Comments = ({ data, userInfo }) => {
             placeholder="Write a comment..."
             className="input"
           />
-          <img
-            src="https://www.pinclipart.com/picdir/middle/201-2016537_send-message-icon-white-clipart-computer-icons-clip.png"
-            alt="send"
-            className="send"
-          />
+          <button type="submit" className="send-button">
+            <img
+              src="https://www.pinclipart.com/picdir/middle/201-2016537_send-message-icon-white-clipart-computer-icons-clip.png"
+              alt="send"
+              className="send-image"
+            />
+          </button>
         </form>
       </div>
     </div>
@@ -59,7 +79,7 @@ Comments.defaultProps = {
 
 Comments.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  userInfo: PropTypes.shape({
+  ownerInfo: PropTypes.shape({
     name: PropTypes.string,
     profileImageURL: PropTypes.string
   }).isRequired

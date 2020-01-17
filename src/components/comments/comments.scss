@@ -1,11 +1,14 @@
+$primaryInputBackground: #f2f3f5;
+$primaryInputBorder: #ccd0d5;
+
 .comments-container {
   width: 30em;
-  border: 1px solid black;
+  border: 1px solid $primaryInputBorder;
 
   .post-comment {
     display: flex;
     align-items: center;
-    border: 1px solid black;
+
     padding: .5em;
 
     .image-container {
@@ -21,22 +24,32 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border: 1px solid black;
+      border: 1px solid $primaryInputBorder;
       width: 100%;
       border-radius: 1rem;
       height: 2rem;
       padding: 0 .3rem;
+      background-color: $primaryInputBackground;
+
 
       .input {
         width: 100%;
         border: none;
+        height: 1.8em;
         outline: none;
-
+        background-color: transparent
       }
 
-      .send {
-        height: 1.5em;
-        width: 1.5em;
+      .send-button {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        outline: none;
+
+        .send-image {
+          height: 1.5em;
+          width: 1.5em;
+        }
       }
     }
   }

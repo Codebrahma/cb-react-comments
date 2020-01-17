@@ -1,10 +1,15 @@
+$primaryBackground: #f2f3f5;
+$primaryProfileName:#385898;
+$optionBackground:#4266b2;
+$primaryInputBorder: #ccd0d5;
+
 .comment {
-  border: 1px solid black;
+  // border: 1px solid black;
   display: flex;
   align-items: center;
   padding: .5em;
   box-sizing: border-box;
-
+  font-size: 1em;
 
   .image-container {
     .image {
@@ -13,41 +18,76 @@
     }
   }
 
-  &:hover {
-    .options-container {
-      visibility: visible;
-    }
-  }
 
   .context-container {
-    border: 1px solid black;
     padding: .5em;
     border-radius: 2em;
     margin: 0 .5em;
+    background-color: $primaryBackground;
 
     .name {
+      a {
+        text-decoration: none;
+        color: $primaryProfileName;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
       font-weight: bold;
       margin-right: .5em;
     }
 
+    &:hover {
+      .options-container {
 
+        visibility: visible;
+      }
+    }
   }
 
   .options-container {
     // visibility: hidden;
-    font-size: 1.2em;
-    cursor: pointer;
-    opacity: .5;
+
+    .options-description {
+      position: absolute;
+      border: 1px solid black;
+      visibility: hidden;
+    }
+
+    .options-icon {
+      opacity: .5;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .options-icon:hover .options-description {
+      visibility: visible;
+    }
 
     .options {
-      font-size: .5em;
-      border: 1px solid black;
-    }
+      position: absolute;
+      background-color: white;
+      border: 1px solid $primaryInputBorder;
 
-    &:hover {
-      opacity: 1;
+
+      .option {
+
+        cursor: pointer;
+        font-size: .8em;
+        padding: .1em .5em;
+
+        &:hover {
+          background-color: $optionBackground;
+          color: white;
+        }
+      }
+
     }
   }
-
 
 }
