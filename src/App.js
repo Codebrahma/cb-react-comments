@@ -3,6 +3,7 @@ import Comments from './components/comments/Comments';
 import data from './data';
 
 function App() {
+  const dataUrl = 'https://api.myjson.com/bins/1a6qaq';
   const userInfo = {
     id: 0,
     name: 'naveen',
