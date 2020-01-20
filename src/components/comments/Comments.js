@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Comment from '../comment/Comment';
+import Editor from '../editor/Editor';
 import './comments.scss';
 
 const Comments = ({ data, ownerInfo }) => {
@@ -14,30 +15,16 @@ const Comments = ({ data, ownerInfo }) => {
     // TODO delete comment
   };
 
-  const editComment = toEditComment => {
-    console.log(toEditComment);
-  };
-
-  const commentsList = comments.map(comment => (
-    <Comment
-      key={comment.id}
-      deleteComment={deleteComment}
-      editComment={editComment}
-      ownerInfo={ownerInfo}
-      comment={comment}
-    />
-  ));
-
   const addComment = e => {
     e.preventDefault();
     const text = e.target.input.value.trim();
 
     if (text !== '') {
       const myMessage = {
+        id: Math.random(), // TODO Change id generation method
         userInfo: ownerInfo,
         context: text,
-        postedTime: Date.now(),
-        id: Math.random()
+        postedTime: Date.now()
       };
 
       e.target.input.value = '';
@@ -46,34 +33,58 @@ const Comments = ({ data, ownerInfo }) => {
       // TODO  post comment
     }
   };
+  const editComment = (e, commentToEdit) => {
+    e.preventDefault();
+    const text = e.target.input.value.trim();
+
+    const editedComments = comments.map(comment => {
+      if (comment.id === commentToEdit.id) {
+        const tempComment = comment;
+        tempComment.context = text;
+        return tempComment;
+      }
+      return comment;
+    });
+    updateComments(editedComments);
+  };
+
+  const openCommentInEditor = commentToOpen => {
+    const editedComments = comments.map(comment => {
+      if (comment.id === commentToOpen.id) {
+        return (
+          <Editor
+            key={comment.id}
+            commentText={comment.context}
+            comment={comment}
+            addComment={addComment}
+            editComment={editComment}
+          />
+        );
+      }
+      return comment;
+    });
+    updateComments(editedComments);
+  };
+
+  const commentsList = comments.map(comment => {
+    if (Object.prototype.hasOwnProperty.call(comment, '$$typeof')) {
+      return comment;
+    }
+    return (
+      <Comment
+        key={comment.id}
+        deleteComment={deleteComment}
+        openCommentInEditor={openCommentInEditor}
+        ownerInfo={ownerInfo}
+        comment={comment}
+      />
+    );
+  });
 
   return (
     <div className="comments-container">
       <div className="comments">{commentsList}</div>
-      <div className="post-comment">
-        <div className="image-container">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQysqwVdNUKASMQcQau2kXUBBgpHjRz_YqRJwduBzCQfCIrSFvz&s"
-            alt="profile"
-            className="image"
-          />
-        </div>
-        <form onSubmit={e => addComment(e)} className="input-container">
-          <input
-            type="text"
-            name="input"
-            placeholder="Write a comment..."
-            className="input"
-          />
-          <button type="submit" className="send-button">
-            <img
-              src="https://www.pinclipart.com/picdir/middle/201-2016537_send-message-icon-white-clipart-computer-icons-clip.png"
-              alt="send"
-              className="send-image"
-            />
-          </button>
-        </form>
-      </div>
+      <Editor addComment={addComment} />
     </div>
   );
 };

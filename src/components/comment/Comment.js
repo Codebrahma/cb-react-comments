@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './comment.scss';
 
-const Comment = ({ deleteComment, editComment, ownerInfo, comment }) => {
+const Comment = ({
+  deleteComment,
+  openCommentInEditor,
+  ownerInfo,
+  comment
+}) => {
   const { userInfo, context } = comment;
   const myId = ownerInfo.id;
   const uid = userInfo.id;
@@ -37,7 +42,10 @@ const Comment = ({ deleteComment, editComment, ownerInfo, comment }) => {
         >
           {currentUserComment ? (
             <>
-              <div className="option" onClick={() => editComment(comment)}>
+              <div
+                className="option"
+                onClick={() => openCommentInEditor(comment)}
+              >
                 Edit
               </div>
               <div className="option" onClick={() => deleteComment(comment)}>
@@ -56,22 +64,25 @@ const Comment = ({ deleteComment, editComment, ownerInfo, comment }) => {
   );
 };
 
-Comment.propType = {
+Comment.propTypes = {
   deleteComment: PropTypes.func.isRequired,
+  openCommentInEditor: PropTypes.func.isRequired,
   ownerInfo: PropTypes.shape({
     id: PropTypes.any,
     name: PropTypes.string,
+    profileURL: PropTypes.string,
     profileImageURL: PropTypes.string
-  }),
+  }).isRequired,
   comment: PropTypes.shape({
     id: PropTypes.any,
     userInfo: PropTypes.shape({
       id: PropTypes.any,
       name: PropTypes.string,
+      profileURL: PropTypes.string,
       profileImageURL: PropTypes.string
     }),
-    context: PropTypes.string,
-    postedTime: PropTypes.string
-  })
+    context: PropTypes.any,
+    postedTime: PropTypes.any
+  }).isRequired
 };
 export default Comment;
