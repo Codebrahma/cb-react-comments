@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import parse from 'html-react-parser';
 import Comment from '../comment/Comment';
 import Editor from '../editor/Editor';
 import './comments.scss';
@@ -41,33 +42,47 @@ const Comments = ({ data, ownerInfo }) => {
     // TODO delete comment
   };
 
-  const addComment = e => {
-    e.preventDefault();
-    const text = e.target.input.value.trim();
+  const removeTailingEmptyLines = htmlToRemove => {
+    const parsedContent = parse(htmlToRemove);
+    for (let index = parsedContent.length - 1; index >= 0; index -= 1) {
+      if (parsedContent[index].props.children.type === 'br') {
+        parsedContent.pop();
+      }
+    }
+    return parsedContent;
+  };
 
+  const addComment = (event, newCommentText, reactQuillRef) => {
+    event.preventDefault();
+    const editor = reactQuillRef.current.getEditor();
+    const unprivilegedEditor = reactQuillRef.current.makeUnprivilegedEditor(
+      editor
+    );
+    const text = unprivilegedEditor.getText().trim();
+    const htmlContent = unprivilegedEditor.getHTML();
+    const cleanedContent =
+      htmlContent.length && removeTailingEmptyLines(htmlContent);
     if (text !== '') {
       const myMessage = {
         id: Math.random(), // TODO Change id generation method
         userInfo: ownerInfo,
-        context: text,
+        context: cleanedContent || htmlContent,
         postedTime: Date.now()
       };
 
-      e.target.input.value = '';
       updateComments(prev => prev.concat(myMessage));
 
       // TODO  post comment
     }
   };
 
-  const editComment = (e, commentToEdit) => {
-    e.preventDefault();
-    const text = e.target.input.value.trim();
+  const editComment = (event, text, commentToEdit) => {
+    event.preventDefault();
 
     const editedComments = comments.map(comment => {
       if (comment.id === commentToEdit.id) {
         const tempComment = comment;
-        tempComment.context = text;
+        tempComment.context = text.trim();
         return tempComment;
       }
       return comment;
