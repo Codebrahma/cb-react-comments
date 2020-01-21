@@ -7,6 +7,7 @@ import './comments.scss';
 
 const Comments = ({ data, ownerInfo }) => {
   const [comments, updateComments] = useState(data);
+  const [loading, setLoading] = useState(false);
 
   const validateURL = myURL => {
     const pattern = new RegExp(
@@ -19,9 +20,13 @@ const Comments = ({ data, ownerInfo }) => {
   useEffect(() => {
     // If data is URL
     if (typeof data === 'string' && validateURL(data)) {
+      setLoading(true);
       axios
         .get(data)
-        .then(response => updateComments(response.data))
+        .then(response => {
+          updateComments(response.data);
+          setLoading(false);
+        })
         .catch(err => {
           throw new Error(err);
         });
@@ -107,7 +112,11 @@ const Comments = ({ data, ownerInfo }) => {
 
   return (
     <div className="comments-container">
-      <div className="comments">{commentsList}</div>
+      {loading ? (
+        <div className="loader"> Loading... </div>
+      ) : (
+        <div className="comments">{commentsList}</div>
+      )}
       <Editor addComment={addComment} />
     </div>
   );
