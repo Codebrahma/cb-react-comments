@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
+import send from '../../assets/send.svg';
+
 import 'react-quill/dist/quill.bubble.css';
 import './Editor.scss';
 
@@ -33,18 +35,21 @@ const Editor = ({ addComment, editComment, commentText, comment }) => {
         onSubmit={event => submitHandler(event)}
         className="input-container"
       >
-        <ReactQuill
-          theme="bubble"
-          ref={reactQuillRef}
-          onChange={handleChange}
-          value={editorValue}
-          modules={Editor.modules}
-          formats={Editor.formats}
-          placeholder="Write a comment..."
-        />
+        <div className="input-quill">
+          <ReactQuill
+            theme="bubble"
+            ref={reactQuillRef}
+            onChange={handleChange}
+            value={editorValue}
+            modules={Editor.modules}
+            formats={Editor.formats}
+            placeholder="Write a comment..."
+          />
+        </div>
         <button type="submit" className="send-button">
           <img
-            src="https://www.pinclipart.com/picdir/middle/201-2016537_send-message-icon-white-clipart-computer-icons-clip.png"
+            src={send}
+            // src="https://www.pinclipart.com/picdir/middle/201-2016537_send-message-icon-white-clipart-computer-icons-clip.png"
             alt="send"
             className="send-image"
           />
@@ -59,12 +64,7 @@ Editor.modules = {
     [{ header: '1' }, { header: '2' }],
 
     ['bold', 'italic', 'underline', 'strike'],
-    [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' }
-    ],
+    [{ list: 'ordered' }, { list: 'bullet' }],
     ['link'],
     ['clean']
   ],

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import parse from 'html-react-parser';
 import Comment from '../comment/Comment';
 import Editor from '../editor/Editor';
 import './comments.scss';
@@ -42,31 +41,36 @@ const Comments = ({ data, ownerInfo }) => {
     // TODO delete comment
   };
 
-  const removeTailingEmptyLines = htmlToRemove => {
-    const parsedContent = parse(htmlToRemove);
-    for (let index = parsedContent.length - 1; index >= 0; index -= 1) {
-      if (parsedContent[index].props.children.type === 'br') {
-        parsedContent.pop();
-      }
+  const removeBothEndBreaks = text => {
+    let tempText = text;
+
+    while (tempText.endsWith('<p><br></p>')) {
+      const len = tempText.length;
+      tempText = tempText.substring(0, len - 11);
     }
-    return parsedContent;
+
+    while (tempText.startsWith('<p><br></p>')) {
+      tempText = tempText.substring(11);
+    }
+    return tempText;
   };
 
   const addComment = (event, newCommentText, reactQuillRef) => {
     event.preventDefault();
+
     const editor = reactQuillRef.current.getEditor();
     const unprivilegedEditor = reactQuillRef.current.makeUnprivilegedEditor(
       editor
     );
-    const text = unprivilegedEditor.getText().trim();
-    const htmlContent = unprivilegedEditor.getHTML();
-    const cleanedContent =
-      htmlContent.length && removeTailingEmptyLines(htmlContent);
+
+    let text = unprivilegedEditor.getText().trim();
+
     if (text !== '') {
+      text = removeBothEndBreaks(newCommentText);
       const myMessage = {
         id: Math.random(), // TODO Change id generation method
         userInfo: ownerInfo,
-        context: cleanedContent || htmlContent,
+        context: text,
         postedTime: Date.now()
       };
 
@@ -82,7 +86,7 @@ const Comments = ({ data, ownerInfo }) => {
     const editedComments = comments.map(comment => {
       if (comment.id === commentToEdit.id) {
         const tempComment = comment;
-        tempComment.context = text.trim();
+        tempComment.context = removeBothEndBreaks(text).trim();
         return tempComment;
       }
       return comment;
@@ -105,6 +109,7 @@ const Comments = ({ data, ownerInfo }) => {
       }
       return comment;
     });
+
     updateComments(editedComments);
   };
 

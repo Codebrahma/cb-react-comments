@@ -1,4 +1,4 @@
-$primaryInputBackground: #f2f3f5;
+$primaryInputBackground: #f0efef;
 $primaryInputBorder: #ccd0d5;
 
 .post-comment {
@@ -19,42 +19,55 @@ $primaryInputBorder: #ccd0d5;
   .input-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border: 1px solid $primaryInputBorder;
+    // justify-content: space-between;
+
     width: 100%;
-    border-radius: 1rem;
-    min-height: 2rem;
-    // max-height: 5rem;
-    padding: 0 .3rem;
-    background-color: $primaryInputBackground;
 
 
-    .quill {
+
+    .input-quill {
+      border-radius: 1rem;
+      padding: .2em;
       width: 100%;
-      border: none;
-      outline: none;
-      background-color: transparent;
+      background-color: $primaryInputBackground;
+      border: 1px solid $primaryInputBorder;
 
-      // .ql-tooltip {
-      //   width: 25em;
-      // }
+      .quill {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        padding: .3rem;
 
-      .ql-bubble {
-        .ql-editor {
-          padding: .2em;
+        .ql-tooltip {
+          .ql-toolbar {
+            width: 30em;
+          }
+        }
+
+        .ql-bubble {
+          .ql-editor {
+            padding: .2em;
+          }
         }
       }
+
     }
 
     .send-button {
       border: none;
       background-color: transparent;
-      cursor: pointer;
       outline: none;
+      align-self: baseline;
+      margin: .3em;
 
       .send-image {
-        height: 1.5em;
-        width: 1.5em;
+        // border-radius: 50%;
+        // background-color: #192965;
+        cursor: pointer;
+        // border: 1px solid black;
+        padding: .3em;
+        height: 2em;
+        width: 2em;
       }
     }
   }
