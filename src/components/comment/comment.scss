@@ -1,96 +1,96 @@
-$primaryBackground: #edf7fa;
-$primaryProfileName:#385898;
 $optionBackground:#4266b2;
 $primaryInputBorder: #ccd0d5;
+$name:#385898;
 
-.comment {
+
+
+.comment-container {
   display: flex;
-  align-items: center;
-  padding: .5em;
-  box-sizing: border-box;
-  font-size: 1em;
+  padding: 5px;
 
   .image-container {
     .image {
-      height: 2.3em;
-      width: 2.3em;
+      border-radius: 50%;
+      height: 32px;
+      width: 32px;
     }
   }
 
-  .context-container {
-    padding: .5em;
-    border-radius: .5em;
-    margin: 0 .5em;
-    background-color: $primaryBackground;
+  .comment {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3px;
+    padding-top: 0;
+    padding-bottom: 16px;
+    padding-left: 8px;
+    padding-right: 10px;
+    background-color: #e3e3e3;
+    border-radius: 16px;
+    border-top-left-radius: 0;
 
-    p,
-    ul {
-      margin: 0
-    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 8px 0;
 
-    .name {
-      a {
-        text-decoration: none;
-        color: $primaryProfileName;
+      .info {
+        display: flex;
+        align-items: center;
 
-        &:hover {
-          text-decoration: underline;
+        .name {
+          a {
+            color: $name;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: capitalize;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
         }
       }
 
-      font-weight: bold;
-      margin-right: .5em;
-    }
-
-    &:hover {
       .options-container {
 
-        visibility: visible;
-      }
-    }
-  }
-
-  .options-container {
-    // visibility: hidden;
-
-    .options-description {
-      position: absolute;
-      border: 1px solid black;
-      visibility: hidden;
-    }
-
-    .options-icon {
-      opacity: .5;
-      cursor: pointer;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-    .options-icon:hover .options-description {
-      visibility: visible;
-    }
-
-    .options {
-      position: absolute;
-      background-color: white;
-      border: 1px solid $primaryInputBorder;
-
-
-      .option {
-
         cursor: pointer;
-        font-size: .8em;
-        padding: .1em .5em;
+        font-size: 15px;
 
-        &:hover {
-          background-color: $optionBackground;
-          color: white;
+        .options-icon {
+          transform: rotate(90deg);
+          margin: 0 8px;
+        }
+
+        .options {
+          position: absolute;
+          border: 1px solid $primaryInputBorder;
+          background-color: white;
+
+          .option {
+            cursor: pointer;
+            font-size: 12px;
+            padding: 3px 5px;
+
+            &:hover {
+              background-color: $optionBackground;
+              color: white;
+            }
+          }
         }
       }
+    }
+
+    .comment-text {
+
+      h1,
+      h2,
+      p,
+      ul,
+      ol {
+        margin: 0
+      }
 
     }
   }
-
 }

@@ -1,13 +1,15 @@
-$primaryBackground: #faf5e4;
+$primaryBackground: #fffdf6;
 $primaryInputBorder: #ccd0d5;
 
 .comments-container {
-  width: 30em;
+  width: 450px;
   border: 1px solid $primaryInputBorder;
-  // background-color: $primaryBackground;
+  background-color: $primaryBackground;
+  padding: 10px;
+  border-radius: 10px;
 
   .loader {
     text-align: center;
-    padding: 1em 0;
+    padding: 16px 0;
   }
 }

@@ -15,51 +15,54 @@ const Comment = ({
   const { name, profileImageURL, profileURL } = userInfo;
   const [showOptions, toggleOptions] = useState(false);
   const currentUserComment = myId === uid;
-  return (
-    <div className="comment">
-      <div className="image-container">
-        <img src={profileImageURL} className="image" alt="profile" />
-      </div>
-      <div className="context-container">
-        <span className="name">
-          <a href={profileURL}>{name}</a>
-        </span>
-        <span className="context">{parse(context)}</span>
-      </div>
 
-      <div className="options-container">
-        <div className="options-description">
-          {currentUserComment ? 'Edit or Delete' : 'Hide or Report'}
-        </div>
-        <div
-          onClick={() => toggleOptions(prev => !prev)}
-          className="options-icon"
-        >
-          &hellip;
-        </div>
-        <div
-          style={{ visibility: showOptions ? 'visible' : 'hidden' }}
-          className="options"
-        >
-          {currentUserComment ? (
-            <>
-              <div
-                className="option"
-                onClick={() => openCommentInEditor(comment)}
-              >
-                Edit
+  return (
+    <div className="comment-container">
+      <div className="image-container">
+        <img className="image" src={profileImageURL} alt="profile" />
+      </div>
+      <div className="comment">
+        <div className="header">
+          <div className="info">
+            <div className="name">
+              <a href={profileURL}>{name}</a>
+            </div>
+          </div>
+          <div className="options-container">
+            <div
+              className="options-icon"
+              onClick={() => toggleOptions(prev => !prev)}
+            >
+              &hellip;
+            </div>
+            {showOptions && (
+              <div className="options">
+                {currentUserComment ? (
+                  <>
+                    <div
+                      className="option"
+                      onClick={() => openCommentInEditor(comment)}
+                    >
+                      Edit
+                    </div>
+                    <div
+                      className="option"
+                      onClick={() => deleteComment(comment)}
+                    >
+                      Delete
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="option">Hide</div>
+                    <div className="option">Report</div>
+                  </>
+                )}
               </div>
-              <div className="option" onClick={() => deleteComment(comment)}>
-                Delete
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="option">Hide</div>
-              <div className="option">Report</div>
-            </>
-          )}
+            )}
+          </div>
         </div>
+        <div className="comment-text">{parse(context)}</div>
       </div>
     </div>
   );
