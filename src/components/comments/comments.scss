@@ -1,9 +1,10 @@
-$primaryInputBackground: #f2f3f5;
+$primaryBackground: #faf5e4;
 $primaryInputBorder: #ccd0d5;
 
 .comments-container {
   width: 30em;
   border: 1px solid $primaryInputBorder;
+  // background-color: $primaryBackground;
 
   .loader {
     text-align: center;

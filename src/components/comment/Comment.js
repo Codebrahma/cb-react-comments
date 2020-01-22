@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import parse from 'html-react-parser';
 import './comment.scss';
 
 const Comment = ({
@@ -23,7 +24,7 @@ const Comment = ({
         <span className="name">
           <a href={profileURL}>{name}</a>
         </span>
-        <span className="context">{context}</span>
+        <span className="context">{parse(context)}</span>
       </div>
 
       <div className="options-container">

@@ -41,11 +41,32 @@ const Comments = ({ data, ownerInfo }) => {
     // TODO delete comment
   };
 
-  const addComment = e => {
-    e.preventDefault();
-    const text = e.target.input.value.trim();
+  const removeBothEndBreaks = text => {
+    let tempText = text;
+
+    while (tempText.endsWith('<p><br></p>')) {
+      const len = tempText.length;
+      tempText = tempText.substring(0, len - 11);
+    }
+
+    while (tempText.startsWith('<p><br></p>')) {
+      tempText = tempText.substring(11);
+    }
+    return tempText;
+  };
+
+  const addComment = (event, newCommentText, reactQuillRef) => {
+    event.preventDefault();
+
+    const editor = reactQuillRef.current.getEditor();
+    const unprivilegedEditor = reactQuillRef.current.makeUnprivilegedEditor(
+      editor
+    );
+
+    let text = unprivilegedEditor.getText().trim();
 
     if (text !== '') {
+      text = removeBothEndBreaks(newCommentText);
       const myMessage = {
         id: Math.random(), // TODO Change id generation method
         userInfo: ownerInfo,
@@ -53,21 +74,19 @@ const Comments = ({ data, ownerInfo }) => {
         postedTime: Date.now()
       };
 
-      e.target.input.value = '';
       updateComments(prev => prev.concat(myMessage));
 
       // TODO  post comment
     }
   };
 
-  const editComment = (e, commentToEdit) => {
-    e.preventDefault();
-    const text = e.target.input.value.trim();
+  const editComment = (event, text, commentToEdit) => {
+    event.preventDefault();
 
     const editedComments = comments.map(comment => {
       if (comment.id === commentToEdit.id) {
         const tempComment = comment;
-        tempComment.context = text;
+        tempComment.context = removeBothEndBreaks(text).trim();
         return tempComment;
       }
       return comment;
@@ -90,6 +109,7 @@ const Comments = ({ data, ownerInfo }) => {
       }
       return comment;
     });
+
     updateComments(editedComments);
   };
 

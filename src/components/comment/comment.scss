@@ -1,10 +1,9 @@
-$primaryBackground: #f2f3f5;
+$primaryBackground: #edf7fa;
 $primaryProfileName:#385898;
 $optionBackground:#4266b2;
 $primaryInputBorder: #ccd0d5;
 
 .comment {
-  // border: 1px solid black;
   display: flex;
   align-items: center;
   padding: .5em;
@@ -18,12 +17,16 @@ $primaryInputBorder: #ccd0d5;
     }
   }
 
-
   .context-container {
     padding: .5em;
-    border-radius: 2em;
+    border-radius: .5em;
     margin: 0 .5em;
     background-color: $primaryBackground;
+
+    p,
+    ul {
+      margin: 0
+    }
 
     .name {
       a {
