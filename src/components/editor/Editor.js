@@ -2,13 +2,14 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 import send from '../../assets/send.svg';
-
 import 'react-quill/dist/quill.bubble.css';
 import './Editor.scss';
 
 const Editor = ({ addComment, editComment, commentText, comment }) => {
   const [editorValue, setEditorValue] = useState(commentText);
+
   const reactQuillRef = useRef();
+
   const handleChange = html => {
     setEditorValue(html);
   };
@@ -47,12 +48,7 @@ const Editor = ({ addComment, editComment, commentText, comment }) => {
           />
         </div>
         <button type="submit" className="send-button">
-          <img
-            src={send}
-            // src="https://www.pinclipart.com/picdir/middle/201-2016537_send-message-icon-white-clipart-computer-icons-clip.png"
-            alt="send"
-            className="send-image"
-          />
+          <img src={send} alt="send" className="send-image" />
         </button>
       </form>
     </div>
