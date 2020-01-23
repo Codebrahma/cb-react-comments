@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
+import styled from 'styled-components';
 import './comment.scss';
 
 const Comment = ({
   deleteComment,
   openCommentInEditor,
   ownerInfo,
-  comment
+  comment,
+  theme
 }) => {
   const { userInfo, context } = comment;
   const myId = ownerInfo.id;
@@ -21,7 +23,10 @@ const Comment = ({
       <div className="image-container">
         <img className="image" src={profileImageURL} alt="profile" />
       </div>
-      <div className="comment">
+      <div
+        className="comment"
+        style={{ backgroundColor: theme.commentBackground }}
+      >
         <div className="header">
           <div className="info">
             <div className="name">
@@ -68,6 +73,10 @@ const Comment = ({
   );
 };
 
+Comment.defaultProps = {
+  theme: null
+};
+
 Comment.propTypes = {
   deleteComment: PropTypes.func.isRequired,
   openCommentInEditor: PropTypes.func.isRequired,
@@ -87,6 +96,7 @@ Comment.propTypes = {
     }),
     context: PropTypes.any,
     postedTime: PropTypes.any
-  }).isRequired
+  }).isRequired,
+  theme: PropTypes.object
 };
 export default Comment;

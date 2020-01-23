@@ -7,6 +7,11 @@ $primaryInputBorder: #ccd0d5;
   background-color: $primaryBackground;
   padding: 10px;
   border-radius: 10px;
+  // max-height: 700px;
+  // overflow-y: auto;
+  // .comments {
+  //   overflow-y: auto;
+  // }
 
   .loader {
     text-align: center;

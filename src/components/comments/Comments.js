@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import styled, { ThemeProvider } from 'styled-components';
 import Comment from '../comment/Comment';
 import Editor from '../editor/Editor';
 import './comments.scss';
 
-const Comments = ({ data, ownerInfo }) => {
+const Comments = ({ data, ownerInfo, height, width, theme }) => {
   const [comments, updateComments] = useState(data);
   const [loading, setLoading] = useState(false);
+  const [userTheme, setTheme] = useState(theme);
+  const [currentCommentToEdit, setCurrentComment] = useState({});
+
+  // Themes
+  const primary = {
+    commentsContainerBackground: '#63b7af',
+    commentBackground: '#ffffff',
+    sendButton: '#333333'
+  };
 
   const validateURL = myURL => {
     const pattern = new RegExp(
@@ -33,16 +43,20 @@ const Comments = ({ data, ownerInfo }) => {
     }
   }, []);
 
-  const deleteComment = toDelcomment => {
-    const updatedComments = comments.filter(
-      comment => comment.id !== toDelcomment.id
-    );
-    updateComments(updatedComments);
-    // TODO delete comment
-  };
+  // TODO change theme
 
-  const removeBothEndBreaks = text => {
-    let tempText = text;
+  useEffect(() => {
+    // Setting up theme
+    switch (theme) {
+      case 'primary':
+        setTheme({ ...primary });
+        break;
+      default:
+    }
+  }, [theme]);
+
+  const removeBothEndBreaks = htmlText => {
+    let tempText = htmlText;
 
     while (tempText.endsWith('<p><br></p>')) {
       const len = tempText.length;
@@ -74,10 +88,19 @@ const Comments = ({ data, ownerInfo }) => {
         postedTime: Date.now()
       };
 
-      updateComments(prev => prev.concat(myMessage));
+      updateComments(prev => [...prev, myMessage]);
 
       // TODO  post comment
     }
+  };
+
+  const deleteComment = toDelcomment => {
+    const updatedComments = comments.filter(
+      comment => comment.id !== toDelcomment.id
+    );
+    updateComments(updatedComments);
+
+    // TODO delete comment
   };
 
   const editComment = (event, text, commentToEdit) => {
@@ -92,6 +115,20 @@ const Comments = ({ data, ownerInfo }) => {
       return comment;
     });
     updateComments(editedComments);
+
+    // TODO  post comment
+  };
+
+  const cancelEditing = commentToCancel => {
+    updateComments(prev => {
+      const updatedComments = prev.map(comment =>
+        Object.prototype.hasOwnProperty.call(comment, '$$typeof') &&
+        comment.props.comment.id === commentToCancel.id
+          ? commentToCancel
+          : comment
+      );
+      return updatedComments;
+    });
   };
 
   const openCommentInEditor = commentToOpen => {
@@ -104,6 +141,7 @@ const Comments = ({ data, ownerInfo }) => {
             comment={comment}
             addComment={addComment}
             editComment={editComment}
+            cancelEditing={cancelEditing}
           />
         );
       }
@@ -111,14 +149,20 @@ const Comments = ({ data, ownerInfo }) => {
     });
 
     updateComments(editedComments);
+    setCurrentComment(commentToOpen);
   };
 
   const commentsList =
     typeof comments === 'object' &&
     comments.map(comment => {
       if (Object.prototype.hasOwnProperty.call(comment, '$$typeof')) {
-        return comment;
+        if (comment.props.comment.id === currentCommentToEdit.id) {
+          return comment;
+        }
+
+        cancelEditing(comment.props.comment);
       }
+
       return (
         <Comment
           key={comment.id}
@@ -126,24 +170,37 @@ const Comments = ({ data, ownerInfo }) => {
           openCommentInEditor={openCommentInEditor}
           ownerInfo={ownerInfo}
           comment={comment}
+          theme={userTheme}
         />
       );
     });
 
+  const CustomCommentsContainer = styled.div`
+    background-color: ${props =>
+      props.theme.userTheme.commentsContainerBackground};
+  `;
+
   return (
-    <div className="comments-container">
-      {loading ? (
-        <div className="loader"> Loading... </div>
-      ) : (
-        <div className="comments">{commentsList}</div>
-      )}
-      <Editor addComment={addComment} />
-    </div>
+    <ThemeProvider theme={{ userTheme }}>
+      <CustomCommentsContainer className="comments-container" style={{ width }}>
+        {loading ? (
+          <div className="loader"> Loading... </div>
+        ) : (
+          <div className="comments" style={{ height }}>
+            {commentsList}
+          </div>
+        )}
+        <Editor addComment={addComment} />
+      </CustomCommentsContainer>
+    </ThemeProvider>
   );
 };
 
 Comments.defaultProps = {
-  data: []
+  data: [],
+  height: null,
+  width: null,
+  theme: {}
 };
 
 Comments.propTypes = {
@@ -151,6 +208,9 @@ Comments.propTypes = {
   ownerInfo: PropTypes.shape({
     name: PropTypes.string,
     profileImageURL: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  theme: PropTypes.oneOf(['primary', 'secondary'])
 };
 export default Comments;

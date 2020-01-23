@@ -5,7 +5,13 @@ import send from '../../assets/send.svg';
 import 'react-quill/dist/quill.bubble.css';
 import './Editor.scss';
 
-const Editor = ({ addComment, editComment, commentText, comment }) => {
+const Editor = ({
+  addComment,
+  editComment,
+  cancelEditing,
+  commentText,
+  comment
+}) => {
   const [editorValue, setEditorValue] = useState(commentText);
 
   const reactQuillRef = useRef();
@@ -23,35 +29,54 @@ const Editor = ({ addComment, editComment, commentText, comment }) => {
     }
   };
 
+  const onKeyUp = event => {
+    if (cancelEditing && event.keyCode === 27) {
+      cancelEditing(comment);
+    }
+    if (event.keyCode === 13 && !event.shiftKey) {
+      submitHandler(event);
+    }
+  };
+
   return (
-    <div className="post-comment">
-      <div className="image-container">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQysqwVdNUKASMQcQau2kXUBBgpHjRz_YqRJwduBzCQfCIrSFvz&s"
-          alt="profile"
-          className="image"
-        />
-      </div>
-      <form
-        onSubmit={event => submitHandler(event)}
-        className="input-container"
-      >
-        <div className="input-quill">
-          <ReactQuill
-            theme="bubble"
-            ref={reactQuillRef}
-            onChange={handleChange}
-            value={editorValue}
-            modules={Editor.modules}
-            formats={Editor.formats}
-            placeholder="Write a comment..."
+    <>
+      <div className="post-comment">
+        <div className="image-container">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQysqwVdNUKASMQcQau2kXUBBgpHjRz_YqRJwduBzCQfCIrSFvz&s"
+            alt="profile"
+            className="image"
           />
         </div>
-        <button type="submit" className="send-button">
-          <img src={send} alt="send" className="send-image" />
-        </button>
-      </form>
-    </div>
+        <div className="input-container">
+          <form onSubmit={event => submitHandler(event)} className="input-form">
+            <div className="input-quill">
+              <ReactQuill
+                theme="bubble"
+                ref={reactQuillRef}
+                onChange={handleChange}
+                value={editorValue}
+                modules={Editor.modules}
+                formats={Editor.formats}
+                placeholder="Write a comment..."
+                onKeyUp={event => onKeyUp(event)}
+              />
+            </div>
+            <button type="submit" className="send-button">
+              <img src={send} alt="send" className="send-image" />
+            </button>
+          </form>
+          {cancelEditing && (
+            <div className="cancel-editing">
+              Press Esc or
+              <span className="text" onClick={() => cancelEditing(comment)}>
+                cancel
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -89,14 +114,16 @@ Editor.formats = [
 Editor.defaultProps = {
   commentText: '',
   comment: null,
-  editComment: null
+  editComment: null,
+  cancelEditing: null
 };
 
 Editor.propTypes = {
   addComment: PropTypes.func.isRequired,
   editComment: PropTypes.func,
   commentText: PropTypes.any,
-  comment: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+  comment: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  cancelEditing: PropTypes.func
 };
 
 export default Editor;
