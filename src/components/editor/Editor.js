@@ -30,9 +30,12 @@ const Editor = ({
   };
 
   const onKeyUp = event => {
+    // Cancel editing on pressing  Esc key
     if (cancelEditing && event.keyCode === 27) {
       cancelEditing(comment);
     }
+
+    // Add comment on pressing  Enter key
     if (event.keyCode === 13 && !event.shiftKey) {
       submitHandler(event);
     }
@@ -59,6 +62,10 @@ const Editor = ({
                 modules={Editor.modules}
                 formats={Editor.formats}
                 placeholder="Write a comment..."
+                // onKeyPress={event => {
+                //   console.log(event);
+                //   console.log(event.charCode);
+                // }}
                 onKeyUp={event => onKeyUp(event)}
               />
             </div>
@@ -68,7 +75,7 @@ const Editor = ({
           </form>
           {cancelEditing && (
             <div className="cancel-editing">
-              Press Esc or
+              Press Esc to
               <span className="text" onClick={() => cancelEditing(comment)}>
                 cancel
               </span>
@@ -121,7 +128,7 @@ Editor.defaultProps = {
 Editor.propTypes = {
   addComment: PropTypes.func.isRequired,
   editComment: PropTypes.func,
-  commentText: PropTypes.any,
+  commentText: PropTypes.string,
   comment: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   cancelEditing: PropTypes.func
 };

@@ -8,8 +8,7 @@ const Comment = ({
   deleteComment,
   openCommentInEditor,
   ownerInfo,
-  comment,
-  theme
+  comment
 }) => {
   const { userInfo, context } = comment;
   const myId = ownerInfo.id;
@@ -23,10 +22,7 @@ const Comment = ({
       <div className="image-container">
         <img className="image" src={profileImageURL} alt="profile" />
       </div>
-      <div
-        className="comment"
-        style={{ backgroundColor: theme.commentBackground }}
-      >
+      <div className="comment">
         <div className="header">
           <div className="info">
             <div className="name">
@@ -73,10 +69,6 @@ const Comment = ({
   );
 };
 
-Comment.defaultProps = {
-  theme: null
-};
-
 Comment.propTypes = {
   deleteComment: PropTypes.func.isRequired,
   openCommentInEditor: PropTypes.func.isRequired,
@@ -96,7 +88,6 @@ Comment.propTypes = {
     }),
     context: PropTypes.any,
     postedTime: PropTypes.any
-  }).isRequired,
-  theme: PropTypes.object
+  }).isRequired
 };
 export default Comment;

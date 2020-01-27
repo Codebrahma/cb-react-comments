@@ -9,15 +9,7 @@ import './comments.scss';
 const Comments = ({ data, ownerInfo, height, width, theme }) => {
   const [comments, updateComments] = useState(data);
   const [loading, setLoading] = useState(false);
-  const [userTheme, setTheme] = useState(theme);
   const [currentCommentToEdit, setCurrentComment] = useState({});
-
-  // Themes
-  const primary = {
-    commentsContainerBackground: '#63b7af',
-    commentBackground: '#ffffff',
-    sendButton: '#333333'
-  };
 
   const validateURL = myURL => {
     const pattern = new RegExp(
@@ -42,18 +34,6 @@ const Comments = ({ data, ownerInfo, height, width, theme }) => {
         });
     }
   }, []);
-
-  // TODO change theme
-
-  useEffect(() => {
-    // Setting up theme
-    switch (theme) {
-      case 'primary':
-        setTheme({ ...primary });
-        break;
-      default:
-    }
-  }, [theme]);
 
   const removeBothEndBreaks = htmlText => {
     let tempText = htmlText;
@@ -94,13 +74,13 @@ const Comments = ({ data, ownerInfo, height, width, theme }) => {
     }
   };
 
-  const deleteComment = toDelcomment => {
+  const deleteComment = commentToDelete => {
     const updatedComments = comments.filter(
-      comment => comment.id !== toDelcomment.id
+      comment => comment.id !== commentToDelete.id
     );
     updateComments(updatedComments);
 
-    // TODO delete comment
+    // TODO post updated comments
   };
 
   const editComment = (event, text, commentToEdit) => {
@@ -170,19 +150,15 @@ const Comments = ({ data, ownerInfo, height, width, theme }) => {
           openCommentInEditor={openCommentInEditor}
           ownerInfo={ownerInfo}
           comment={comment}
-          theme={userTheme}
         />
       );
     });
 
-  const CustomCommentsContainer = styled.div`
-    background-color: ${props =>
-      props.theme.userTheme.commentsContainerBackground};
-  `;
+  console.log(theme);
 
   return (
-    <ThemeProvider theme={{ userTheme }}>
-      <CustomCommentsContainer className="comments-container" style={{ width }}>
+    <ThemeProvider theme={{ theme }}>
+      <div className="comments-container" style={{ width }}>
         {loading ? (
           <div className="loader"> Loading... </div>
         ) : (
@@ -191,7 +167,7 @@ const Comments = ({ data, ownerInfo, height, width, theme }) => {
           </div>
         )}
         <Editor addComment={addComment} />
-      </CustomCommentsContainer>
+      </div>
     </ThemeProvider>
   );
 };
